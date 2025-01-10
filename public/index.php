@@ -4,12 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sevillatatis</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles\index.css">
 </head>
 <body>
   <header>
+  <h1>Hola, home</h1>
     <!-- Logo, menú de navegación -->
-     <h1>Hola buenos</h1>
+     
   </header>
   <main>
     <!-- Secciones principales -->
