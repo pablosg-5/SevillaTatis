@@ -39,51 +39,69 @@
       </form>
 
       <article>
-        <figure>
-          <img src="../img/campo_betis.jpg" alt="Betis Tour">
-          <figcaption>Betis Tour</figcaption>
-          <p>€16.95 per person</p>
-        </figure>
+        <form action="buy.php" method="post">
+          <figure>
+            <input type="image" src="../img/campo_betis.jpg" alt="Betis Tour" name="image_name">
+            <figcaption>Betis Tour</figcaption>
+            <p>€16.95 per person</p>
+            <input type="hidden" name="image_path" value="../img/campo_betis.jpg">
+          </figure>
+        </form>
       </article>
 
       <article>
-        <figure>
-          <img src="../img/cerveza.jpg" alt="Beer Tasting">
-          <figcaption>Beer Tasting by Bars</figcaption>
-          <p>€34.95 per person</p>
-        </figure>
+        <form action="buy.php" method="post">
+          <figure>
+            <input type="image" src="../img/cerveza.jpg" alt="Beer Tasting" name="image_name">
+            <figcaption>Beer Tasting by Bars</figcaption>
+            <p>€34.95 per person</p>
+            <input type="hidden" name="image_path" value="../img/cerveza.jpg">
+          </figure>
+        </form>
       </article>
 
       <article>
-        <figure>
-          <img src="../img/alcazar.jpg" alt="Alcazar Tour">
-          <figcaption>Alcazar Tour</figcaption>
-          <p>€14.95 per person</p>
-        </figure>
+        <form action="buy.php" method="post">
+          <figure>
+            <input type="image" src="../img/alcazar.jpg" alt="Alcazar tour" name="image_name">
+            <figcaption>Alcazar Tour</figcaption>
+            <p>€14.95 per person</p>
+            <input type="hidden" name="image_path" value="../img/alcazar.jpg">
+          </figure>
+        </form>
       </article>
 
       <article>
-        <figure>
-          <img src="../img/caballo.jpg" alt="Horse Tour">
-          <figcaption>Horse Tour</figcaption>
-          <p>€11.95 per person</p>
-        </figure>
+        <form action="buy.php" method="post">
+          <figure>
+            <input type="image" src="../img/caballo.jpg" alt="Horse Tour" name="image_name">
+            <figcaption>Horse Tour</figcaption>
+            <p>€11.95 per person</p>
+            <input type="hidden" name="image_path" value="../img/caballo.jpg">
+          </figure>
+        </form>
       </article>
 
       <article>
-        <figure>
-          <img src="../img/plaza_espana.jpg" alt="Tour for the center">
-          <figcaption>Tour for the center</figcaption>
-          <p>€9.95 per person</p>
-        </figure>
+        <form action="buy.php" method="post">
+          <figure>
+            <input type="image" src="../img/plaza_espana.jpg" alt="Tour for the center" name="image_name">
+            <figcaption>Tour for the center</figcaption>
+            <p>€9.95 per person</p>
+            <input type="hidden" name="image_path" value="../img/plaza_espana.jpg">
+          </figure>
+        </form>
       </article>
 
       <article>
-        <figure>
-          <img src="../img/triana.jpg" alt="Triana Tour">
-          <figcaption>Triana Tour</figcaption>
-          <p>€19.95 per person</p>
-        </figure>
+        <form action="buy.php" method="post">
+          <figure>
+            <input type="image" src="../img/triana.jpg" alt="Triana Tour" name="image_name">
+            <figcaption>Triana Tour</figcaption>
+            <p>€19.95 per person</p>
+            <input type="hidden" name="image_path" value="../img/triana.jpg">
+          </figure>
+        </form>
       </article>
     </section>
   </main>
