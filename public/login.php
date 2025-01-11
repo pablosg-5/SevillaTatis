@@ -1,3 +1,41 @@
+<?php
+// Incluir el archivo de funciones
+include 'functions.php';
+
+session_start();
+
+// Si existe una sesión activa, redirigir a log_out.php
+if (isset($_SESSION['usuario'])) {
+  header("Location: log_out.php");
+  exit();
+}
+
+// Si se ha enviado el formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+
+  // Consultar a la base de datos para verificar las credenciales
+  $conn = conexionDB();
+  $sql = "SELECT * FROM clientes WHERE nombre_usuario='$username'";
+  $result = $conn->query($sql);
+
+  if ($result->num_rows === 1) {
+    $row = $result->fetch_assoc();
+    if (password_verify($password, $row['contrasena'])) {
+      // Crear sesión
+      $_SESSION['usuario'] = $username;
+      header("Location: profile.php");
+      exit();
+    } else {
+      $error_password = "Contraseña incorrecta.";
+    }
+  } else {
+    $error_username = "Usuario no encontrado.";
+  }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -5,40 +43,31 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sevillatatis</title>
-  <link rel="stylesheet" href="styles\login.css">
+  <link rel="stylesheet" href="styles/login.css">
 </head>
 
 <body>
-  <header>
-    <h1>Hola, login</h1>
-    <nav>
-      <ul>
-        <li><a href="profile.php">Profile</a></li>
-        <li><a href="search.php">Search experiences</a></li>
-        <li><a href="about.php">Who we are</a></li>
-        <li><a href="more.php">More about Sevilla</a></li>
-      </ul>
-      <a href="login.php">Log in/Log out</a>
-    </nav>
-  </header>
+
+
   <main>
-    <form action="profile.php" method="$_POST">
-      <img src="../img/icon.jpg" alt="Profile">
-      <h2 class="section">Login</h2>
-      <p>Name: </p>
-      <input type="text" value="">
-      <p>Password: </p>
-      <input type="text" value="">
-      <input type="submit" value="Login">
+    <form action="login.php" method="POST">
+      <input type="hidden" name="login" value="1">
+      <h2>Iniciar sesión</h2>
+      <?php
+      if (isset($error_username)) {
+        echo "<p style='color: red;'>$error_username</p>";
+      } ?>
+      <?php
+      if (isset($error_password)) {
+        echo "<p style='color: red;'>$error_password</p>";
+      } ?>
+      <label for="username">Nombre de usuario:</label>
+      <input type="text" id="username" name="username" required>
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Iniciar sesión</button>
     </form>
-
-    <a href="new_account.php">create new account</a>
-
   </main>
-  <footer>
-    <p>Universidad Pablo de Olavide - Alma Mater Studiorum Universita di Bologna</p>
-    <p>By Pablo S&aacute;nchez G&oacute;mez</p>
-  </footer>
 </body>
 
 </html>
