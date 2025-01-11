@@ -17,7 +17,7 @@
         <li><a href="profile.php">Profile</a></li>
         <li><a href="search.php">Search experiences</a></li>
         <li><a href="about.php">Who we are</a></li>
-        <li><a href="proceso_pago.php">More about Sevilla</a></li>
+        <li><a href="more.php">More about Sevilla</a></li>
       </ul>
       <a href="login.php">Log in/Log out</a>
     </nav>
