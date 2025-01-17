@@ -66,6 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <label for="password">Contraseña:</label>
       <input type="password" id="password" name="password" required>
       <button type="submit">Iniciar sesión</button>
+      <br>
+      <a href="new_account.php">Create new Account</a>
     </form>
   </main>
 </body>

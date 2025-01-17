@@ -1,26 +1,36 @@
 <?php
-
 // Incluir el archivo de funciones
-require('functions.php');
+include 'functions.php';
 
-// Verificar si se ha enviado el formulario
-if (isset($_POST)) {
-    // Obtener los datos del formulario
-    $name = $_POST['name'];
-    $surname = $_POST['surname'];
-    $birthdate = $_POST['birthdate'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $confirmPassword = $_POST['confirm_password'];
+session_start();
 
-    // Validar los datos (por ejemplo, verificar que las contraseñas coincidan)
-    if ($password !== $confirmPassword) {
+// Si existe una sesión activa, redirigir a log_out.php
+if (isset($_SESSION['usuario'])) {
+    header("Location: log_out.php");
+    exit();
+}
+
+// Inicializar mensajes de error
+$error_username = $error_password = null;
+
+// Si se ha enviado el formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Validar que las claves existen en $_POST
+    $username = isset($_POST['username']) ? trim($_POST['username']) : null;
+    $password = isset($_POST['password']) ? trim($_POST['password']) : null;
+    $confirm_password = isset($_POST['confirm_password']) ? trim($_POST['confirm_password']) : null;
+
+    if ($password !== $confirm_password) {
         echo "<script>alert('Las contraseñas no coinciden.');</script>";
     } else {
         // Encriptar la contraseña (por ejemplo, usando bcrypt)
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         // Insertar el usuario en la base de datos
+
+        $name=$_POST['name'];
+        $birthdate=$_POST['birthday'];
+        $surname=$_POST['surname'];
         $conn = conexionDB();
         $sql = "INSERT INTO clientes (nombre, apellido, fecha_nacimiento, nombre_usuario, contrasena) 
                     VALUES ('$name', '$surname', '$birthdate', '$username', '$hashedPassword')";
@@ -40,7 +50,6 @@ if (isset($_POST)) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="es">
 
@@ -52,10 +61,18 @@ if (isset($_POST)) {
 </head>
 
 <body>
-    <main>
+<main>
         <form action="new_account.php" method="POST" enctype="multipart/form-data">
-            <img src="../img/icon.jpg" alt="Profile">
             <h2 class="section">Create New Account</h2>
+
+            <?php
+            if ($error_username) {
+                echo "<p style='color: red;'>$error_username</p>";
+            }
+            if ($error_password) {
+                echo "<p style='color: red;'>$error_password</p>";
+            }
+            ?>
 
             <p>Name:</p>
             <input type="text" name="name" required>
@@ -67,7 +84,7 @@ if (isset($_POST)) {
             <input type="date" name="birthdate" required>
 
             <p>Profile Picture:</p>
-            <input type="file" name="profile_picture" accept="image/*">
+            <input type="file" name="profile_picture" accept="image/*" required>
 
             <p>Username:</p>
             <input type="text" name="username" required>
@@ -81,8 +98,6 @@ if (isset($_POST)) {
             <input type="submit" value="Create Account">
         </form>
     </main>
-
-
 </body>
 
 </html>
