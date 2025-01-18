@@ -18,13 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Consultar a la base de datos para verificar las credenciales
   $conn = conexionDB();
   $sql = "SELECT * FROM clientes WHERE nombre_usuario='$username'";
-  $result = $conn->query($sql);
+  $result = mysqli_query($conn,$sql);
 
-  if ($result->num_rows === 1) {
-    $row = $result->fetch_assoc();
+  if (mysqli_num_rows($result)=== 1) {
+    $row = mysqli_fetch_assoc($result);
     if (password_verify($password, $row['contrasena'])) {
       // Crear sesión
-      $_SESSION['usuario'] = $username;
+      $_SESSION['usuario'] = $row['id'];
       header("Location: profile.php");
       exit();
     } else {
