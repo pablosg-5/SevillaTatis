@@ -4,25 +4,37 @@ session_start();
 
 $con = conexionDB();
 
+// Inicializar variables de consulta
+$searchTerm = isset($_POST['search']) ? $_POST['search'] : '';
+$filtro = isset($_POST['filtro']) ? $_POST['filtro'] : '';
+
+// Construir la consulta SQL según los filtros
 $sql = "SELECT * FROM experiencias";
+if (!empty($searchTerm)) {
+  $sql .= " WHERE nombre LIKE '%$searchTerm%'";
+}
+
+if ($filtro === 'precio') {
+  $sql .= " ORDER BY precio DESC";
+} elseif ($filtro === 'az') {
+  $sql .= " ORDER BY nombre ASC";
+}
+
 $result = mysqli_query($con, $sql);
-
-
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
-  <meta charset="UT">
-  <meta name="viewport" content="width=devicidth, initiacale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sevillatatis</title>
   <link rel="stylesheet" href="styles\search.css">
 </head>
 
 <body>
   <header>
-    <h1>Hola, search</h1>
     <nav>
       <ul>
         <li><a href="profile.php">Profile</a></li>
@@ -32,47 +44,48 @@ $result = mysqli_query($con, $sql);
       </ul>
       <a href="login.php">Log in/Log out</a>
     </nav>
-
   </header>
   <main>
     <section>
       <header>
-        <h2>Experience</h2>
+        <h2>Experiences</h2>
       </header>
 
+      <!-- Formulario para búsqueda y filtros -->
       <form method="post" action="search.php">
-        <label for="searcar">Buscar</label>
-        <input id="searcar" type="text" placeholder="Buscar...">
-        <input type="hidden" name="filtro" value="">
-        <input type="image" src="../img/lupa.jpg" alt="Enviar">
+        <input id="search" name="search" type="text" placeholder="Buscar..." value="<?= htmlspecialchars($searchTerm) ?>">
+        <input type="hidden" id="filtro" name="filtro" value="">
+        <input type="image" src="../img/lupa.jpg" alt="Buscar">
         <input type="submit" value="Precio" onclick="document.getElementById('filtro').value='precio';">
         <input type="submit" value="A-Z" onclick="document.getElementById('filtro').value='az';">
-        <input type="submit" value="Vista de lista" onclick="document.getElementById('filtro').value='lista';">
       </form>
 
       <?php
-      while ($row = mysqli_fetch_assoc($result)) {
+      // Mostrar resultados
+      if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
       ?>
-        <article>
-          <form action="buy.php" method="$_POST">
-            <figure>
-              <?php
-              echo '<input type="image" src="' . $row['imagen'] . '"alt="' . $row['nombre'] . '"name="' . $row['nombre'] . '">';
-              echo '<figcaption>' . $row['nombre'] . '</figcaption>';
-              echo '<p>€' . $row['precio'] . ' per person</p>';
-              echo '<input type="hidden" name="id_experience" value="' . $row['id'] . '">';
-              ?>
-            </figure>
-          </form>
-        </article>
+          <article>
+            <form action="buy.php" method="post">
+              <figure>
+                <input type="hidden" name="id_experience" value="<?= $row['id'] ?>">
+                <input type="image" src="<?= $row['imagen'] ?>" alt="<?= htmlspecialchars($row['nombre']) ?>" name="<?= htmlspecialchars($row['nombre']) ?>">
+                <figcaption><?= htmlspecialchars($row['nombre']) ?></figcaption>
+                <p>€<?= htmlspecialchars($row['precio']) ?> per person</p>
+              </figure>
+            </form>
+          </article>
+
       <?php
+        }
+      } else {
+        echo "<p>No se encontraron experiencias.</p>";
       }
       ?>
-
     </section>
   </main>
   <footer>
-    <p>Universidad Pablo de OlavideAlma Mater Studiorum Universita di Bologna</p>
+    <p>Universidad Pablo de Olavide - Alma Mater Studiorum Università di Bologna</p>
     <p>By Pablo S&aacute;nchez G&oacute;mez</p>
   </footer>
 </body>

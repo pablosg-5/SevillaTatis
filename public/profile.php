@@ -1,30 +1,21 @@
 <?php
-
 include 'functions.php';;
 session_start();
 
-// Verificar si hay una sesión activa
 if (!isset($_SESSION['usuario'])) {
   header("Location: login.php");
   exit();
 }
-
-// Conexión a la base de datos (reemplazar con tus credenciales)
-
 $conn = conexionDB();
-
 // Obtener datos del usuario
-$usuario = $_SESSION['usuario'];
-$sql = "SELECT * FROM clientes WHERE nombre_usuario='$usuario'";
+$id = $_SESSION['usuario'];
+$sql = "SELECT * FROM clientes WHERE id='$id'";
 $resultP = mysqli_query($conn, $sql);
-$rowP=mysqli_fetch_assoc($resultP);
-$id_cliente = $rowP['id'];
+$rowP = mysqli_fetch_assoc($resultP);
 
 // Obtener las reservas del usuario
-$sql = "SELECT * FROM reservas WHERE id_cliente='$id_cliente'";
+$sql = "SELECT * FROM reservas WHERE id_cliente='$id'";
 $resultR = mysqli_query($conn, $sql);
-
-
 ?>
 
 <head>
@@ -45,8 +36,8 @@ $resultR = mysqli_query($conn, $sql);
       </ul>
       <a href="login.php">Log in/Log out</a>
     </nav>
-
   </header>
+
   <main>
     <section>
       <h2>Mis Reservas</h2>
@@ -54,49 +45,57 @@ $resultR = mysqli_query($conn, $sql);
       if (mysqli_num_rows($resultR) > 1) {
         while ($reserva = mysqli_fetch_assoc($resultR)) {
 
-          $con = conexionDB();
-          $id = $resultR['id_experiencia'];
+          $id = $reserva['id_anuncio'];
           $sql = "SELECT * FROM `experiencias` WHERE id='$id'";
-
-          $experiencia = mysqli_fetch_assoc($resultR);
+          $experiencia = mysqli_fetch_assoc(mysqli_query($conn, $sql));
           $nombreExpe = $experiencia['nombre'];
           $precioExpe = $experiencia['precio'];
           $cantidad = $reserva['cantidad'];
 
+      ?>
+          <article>
+            <figure>
+              <img src="<?= $experiencia['imagen'] ?>" alt="<?= $nombreExpe ?>">
+              <figcaption><?= $nombreExpe ?></figcaption>
+            </figure>
+            <p>€<?= $precioExpe ?> per person</p>
+            <p><?= $cantidad ?> u</p>
+            <button onclick="<?= cancelarReserva($reserva['id_anuncio']) ?>">Cancelar</button>
+            <button onclick="modificarReserva(<?= $reserva['id_anuncio'] ?>)">Modificar</button>
+          </article>
 
-          echo '<article>';
-          echo '<figure>';
-          echo '<img src="' . $nombreExpe . '" alt="' . $nombreExpe . '">';
-          echo '<figcaption>' . $nombreExpe . '</figcaption>';
-          echo '</figure>';
-          echo '<p>€' . $precioExpe . ' per person</p>';
-          echo '<p>' . $cantidad . ' u</p>';
-          echo '<button onclick="cancelarReserva(' . $reserva['id'] . ')">Cancelar</button>';
-          echo '<button onclick="modificarReserva(' . $reserva['id'] . ')">Modificar</button>';
-          echo '</article>';
+        <?php
         }
+        ?>
+
+      <?php
       } else if (mysqli_num_rows($resultR) == 1) {
-
-        $con = conexionDB();
-        $id = $resultR['id_experiencia'];
+        $reserva = mysqli_fetch_assoc($resultR);
+        $id = $reserva['id_anuncio'];
         $sql = "SELECT * FROM `experiencias` WHERE id='$id'";
-
-        $experiencia = mysqli_fetch_assoc($resultR);
+        $experiencia = mysqli_fetch_assoc(mysqli_query($conn, $sql));
         $nombreExpe = $experiencia['nombre'];
         $precioExpe = $experiencia['precio'];
         $cantidad = $reserva['cantidad'];
+      ?>
+
+        <article>
+          <figure>
+            <img src="<?= $experiencia['imagen'] ?>" alt="<?= $nombreExpe ?>">
+            <figcaption><?= $nombreExpe ?></figcaption>
+          </figure>
+          <p>€<?= $precioExpe ?> por persona</p>
+          <p><?= $cantidad ?> u</p>
+
+          <!-- Botón de Cancelar con JavaScript -->
+          <button onclick="return cancelarReserva(<?= $reserva['id_anuncio'] ?>)">Cancelar</button>
+
+          <!-- Botón de Modificar con JavaScript -->
+          <button onclick="modificarReserva(<?= $reserva['id_anuncio'] ?>)">Modificar</button>
+        </article>
 
 
-        echo '<article>';
-        echo '<figure>';
-        echo '<img src="' . $nombreExpe . '" alt="' . $nombreExpe . '">';
-        echo '<figcaption>' . $nombreExpe . '</figcaption>';
-        echo '</figure>';
-        echo '<p>€' . $precioExpe . ' per person</p>';
-        echo '<p>' . $cantidad . ' u</p>';
-        echo '<button onclick="cancelarReserva(' . $reserva['id'] . ')">Cancelar</button>';
-        echo '<button onclick="modificarReserva(' . $reserva['id'] . ')">Modificar</button>';
-        echo '</article>';
+      <?php
       } else {
         echo '<p>No tienes reservas aún.</p>';
       }
@@ -111,3 +110,25 @@ $resultR = mysqli_query($conn, $sql);
 </body>
 
 </html>
+
+<script>
+function cancelarReserva(id) {
+    if (confirm("¿Estás seguro de que deseas cancelar esta reserva?")) {
+        fetch('cancelar_reserva.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'id=' + id
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Reserva cancelada correctamente.");
+                document.getElementById('reserva-' + id).remove(); // Remueve el artículo de la vista
+            } else {
+                alert('Error al cancelar la reserva.');
+            }
+        });
+    }
+    return false; // Evita el comportamiento por defecto del botón
+}
+</script>

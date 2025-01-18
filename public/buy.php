@@ -1,3 +1,27 @@
+<?php
+include 'functions.php';
+session_start();
+
+if (isset($_POST['opcion'])) {
+  if ($_POST['opcion'] == 'buy') {
+    $_SESSION['id_experience'] = $_POST['id'];
+    $_SESSION['num_tickets'] = $_POST['num_tickets'];
+
+    header('Location: proceso_pago.php');
+    exit();
+  } else if ($_POST['opcion'] == 'cancel') {
+    header('location: search.php');
+    exit();
+  }
+}
+
+$con = conexionDB();
+$sql = 'SELECT * FROM experiencias WHERE `id`=' . $_POST['id_experience'] . ';';
+$result = mysqli_query($con, $sql);
+$row = mysqli_fetch_assoc($result);
+
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -24,24 +48,28 @@
   <main>
 
     <figure>
-      <img src="../img/campo_betis.jpg" alt="Betis Tour">
-      <figcaption>Betis Tour</figcaption>
+      <img src="<?= $row['imagen'] ?>" alt="<?= $row['nombre'] ?>">
+      <figcaption><?= $row['nombre'] ?></figcaption>
     </figure>
-    <form action="buy.php" method="$_POST">
-      <p>This experience will take you through the facilities of Real Betis Balompié, allowing you to discover more about its history, achievements, and the daily life of the players. You will have the chance to visit part of the pitch where players and the coaching staff are during matches. Additionally, you will see the club's locker rooms and press room. During this visit, you will feel like a true member of the club and receive exclusive gifts upon leaving.</p>
-      <p>16.95€</p>
+    <form action="buy.php" method="post">
+      <p><?= $row['descripcion'] ?></p>
+      <p><?= $row['precio'] ?>€</p>
       <select name="num_tickets" id="num_tickets">
         <?php
-        // Generamos las opciones de la lista desplegable
         for ($i = 1; $i <= 5; $i++) {
           $selected = ($i == 1) ? 'selected' : ''; // Seleccionamos la opción 1 por defecto
           echo "<option value='$i' $selected>$i ticket" . ($i > 1 ? 's' : '') . "</option>";
         }
         ?>
       </select>
-      <input type="submit" value="BUY">
-      <input type="submit" value="CANCEL">
+      <input type="hidden" name="opcion" id="opcion" value="">
+      <input type="hidden" name="id" value="<?= $row['id']; ?>">
+
+      <!-- Botones de acción -->
+      <button type="submit" onclick="document.getElementById('opcion').value='buy';">BUY</button>
+      <button type="submit" onclick="document.getElementById('opcion').value='cancel';">CANCEL</button>
     </form>
+
   </main>
 
   <footer>
