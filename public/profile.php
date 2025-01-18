@@ -36,7 +36,6 @@ $resultR = mysqli_query($conn, $sql);
 
 <body>
   <header>
-    <h1>Hola, search</h1>
     <nav>
       <ul>
         <li><a href="profile.php">Profile</a></li>

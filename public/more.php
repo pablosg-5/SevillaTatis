@@ -10,7 +10,6 @@
 
 <body>
   <header>
-    <h1>Hola, sevilla</h1>
     <nav>
       <ul>
         <li><a href="profile.php">Profile</a></li>

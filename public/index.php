@@ -10,7 +10,6 @@
 
 <body>
   <header>
-    <h1>Hola, home</h1>
     <h1>Sevillatatis</h1>
     <nav>
       <ul>
