@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Insertar el usuario en la base de datos
 
         $name=$_POST['name'];
-        $birthdate=$_POST['birthday'];
+        $birthdate=$_POST['birthdate'];
         $surname=$_POST['surname'];
         $conn = conexionDB();
         $sql = "INSERT INTO clientes (nombre, apellido, fecha_nacimiento, nombre_usuario, contrasena) 

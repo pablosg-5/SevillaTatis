@@ -14,10 +14,11 @@ if (!isset($_SESSION['id_experience']) || !isset($_SESSION['num_tickets'])) {
 
 $id_experience = $_SESSION['id_experience'];
 $num_tickets = $_SESSION['num_tickets'];
+$fecha=$_SESSION['fecha'];
 
 $con = conexionDB();
 $user_id = $_SESSION['usuario'];
-$sql = "INSERT INTO reservas (id_cliente, id_anuncio, cantidad) VALUES ('$user_id', '$id_experience', '$num_tickets')";
+$sql = "INSERT INTO reservas (id_cliente, id_anuncio, cantidad, fecha) VALUES ('$user_id', '$id_experience', '$num_tickets', '$fecha')";
 if (mysqli_query($con, $sql)) {
     $mensaje = "Compra realizada con éxito. Redirigiendo...";
 } else {
@@ -26,6 +27,7 @@ if (mysqli_query($con, $sql)) {
 
 unset($_SESSION['id_experience']);
 unset($_SESSION['num_tickets']);
+unset($_SESSION['fecha']);
 ?>
 
 <!DOCTYPE html>

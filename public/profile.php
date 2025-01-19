@@ -60,14 +60,17 @@ $resultR = mysqli_query($conn, $sql);
             </figure>
             <p>€<?= $precioExpe ?> per person</p>
             <p><?= $cantidad ?> u</p>
-            <button onclick="<?= cancelarReserva($reserva['id_anuncio']) ?>">Cancelar</button>
-            <button onclick="modificarReserva(<?= $reserva['id_anuncio'] ?>)">Modificar</button>
+            <form action="cancelar_reserva.php" method="post">
+              <input type="hidden" id="exp" name="exp" value="<?= $id ?>">
+              <input type="hidden" id="boton" name="boton" value="">
+              <input type="submit" value="Cancelar" onclick="document.getElementById('boton').value='cancelar'"></input>
+              <input type="submit" value="Modificar" onclick="document.getElementById('boton').value='modificar'"></input>
+            </form>
           </article>
 
         <?php
         }
         ?>
-
       <?php
       } else if (mysqli_num_rows($resultR) == 1) {
         $reserva = mysqli_fetch_assoc($resultR);
@@ -86,14 +89,13 @@ $resultR = mysqli_query($conn, $sql);
           </figure>
           <p>€<?= $precioExpe ?> por persona</p>
           <p><?= $cantidad ?> u</p>
-
-          <!-- Botón de Cancelar con JavaScript -->
-          <button onclick="return cancelarReserva(<?= $reserva['id_anuncio'] ?>)">Cancelar</button>
-
-          <!-- Botón de Modificar con JavaScript -->
-          <button onclick="modificarReserva(<?= $reserva['id_anuncio'] ?>)">Modificar</button>
+          <form action="cancelar_reserva.php" method="post">
+            <input type="hidden" id="exp" name="exp" value="<?= $id ?>">
+            <input type="hidden" id="boton" name="boton" value="">
+            <input type="submit" value="Cancelar" onclick="document.getElementById('boton').value='cancelar'"></input>
+            <input type="submit" value="Modificar" onclick="document.getElementById('boton').value='modificar'"></input>
+          </form>
         </article>
-
 
       <?php
       } else {
@@ -110,25 +112,3 @@ $resultR = mysqli_query($conn, $sql);
 </body>
 
 </html>
-
-<script>
-function cancelarReserva(id) {
-    if (confirm("¿Estás seguro de que deseas cancelar esta reserva?")) {
-        fetch('cancelar_reserva.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: 'id=' + id
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("Reserva cancelada correctamente.");
-                document.getElementById('reserva-' + id).remove(); // Remueve el artículo de la vista
-            } else {
-                alert('Error al cancelar la reserva.');
-            }
-        });
-    }
-    return false; // Evita el comportamiento por defecto del botón
-}
-</script>
