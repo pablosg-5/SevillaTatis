@@ -6,10 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sevillatatis</title>
   <link rel="stylesheet" href="styles\who.css">
+  <link rel="stylesheet" href="styles\general.css">
+
 </head>
 
 <body>
-  <header>
+<header>
+    <h1>Sevillatatis</h1>
     <nav>
       <ul>
         <li><a href="profile.php">Profile</a></li>
@@ -17,9 +20,8 @@
         <li><a href="about.php">Who we are</a></li>
         <li><a href="more.php">More about Sevilla</a></li>
       </ul>
-      <a href="login.php">Log in/Log out</a>
+      <a id="boton" href="login.php">Log in/Log out</a>
     </nav>
-
   </header>
   <main>
     <h1>Who we are</h1>

@@ -38,6 +38,8 @@ unset($_SESSION['fecha']);
     <meta name="viewport" content="width=device-width, initial-style=1.0">
     <title>Simulación de Pago</title>
     <link rel="stylesheet" href="styles/pago.css">
+    <link rel="stylesheet" href="styles\general.css">
+
 </head>
 
 <body>

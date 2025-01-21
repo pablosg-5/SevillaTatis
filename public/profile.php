@@ -22,11 +22,14 @@ $resultR = mysqli_query($conn, $sql);
   <meta charset="UT">
   <meta name="viewport" content="width=devicidth, initiacale=1.0">
   <title>Sevillatatis</title>
-  <link rel="stylesheet" href="styles\search.css">
+  <link rel="stylesheet" href="styles\general.css">
+  <link rel="stylesheet" href="styles\profile.css">
+
 </head>
 
 <body>
   <header>
+    <h1>Sevillatatis</h1>
     <nav>
       <ul>
         <li><a href="profile.php">Profile</a></li>
@@ -34,13 +37,13 @@ $resultR = mysqli_query($conn, $sql);
         <li><a href="about.php">Who we are</a></li>
         <li><a href="more.php">More about Sevilla</a></li>
       </ul>
-      <a href="login.php">Log in/Log out</a>
+      <a id="boton" href="login.php">Log in/Log out</a>
     </nav>
   </header>
 
   <main>
+    <h2>Mis Reservas</h2>
     <section>
-      <h2>Mis Reservas</h2>
       <?php
       if (mysqli_num_rows($resultR) > 1) {
         while ($reserva = mysqli_fetch_assoc($resultR)) {

@@ -1,0 +1,47 @@
+main h2{
+    text-align: left;
+    margin: 5px;
+    padding: 5%;
+}
+
+main article{
+    display:flex;
+    background-color: #E6E6E6;
+    border-radius: 40px;
+    margin:5% 0;
+
+}
+
+main figure{
+    overflow: hidden;
+    align-self:flex-start;
+
+}
+
+main form {
+    display: flex; /* Activa Flexbox */
+    justify-content:center; /* Centra los botones horizontalmente */
+    gap: 20px; /* Espaciado entre los botones */
+    margin-top: 20px; /* Margen superior para separar los botones del contenido */
+    font-size: 50px;
+}
+
+main input {
+    padding: 10px 20px; /* Ajusta el tamaño interno del botón */
+    background-color: #426B1F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    max-height: 30%;
+    
+}
+
+main figure img{
+    width: 60%;
+    max-width: 300px;
+    height: auto;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}

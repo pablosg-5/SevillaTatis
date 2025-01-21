@@ -1,0 +1,158 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+header {
+    background-color: #B93939;
+    color: white;
+    text-align: left;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+    min-height: 100px
+}
+
+
+header h1 {
+    color: #DEBB09;
+    font-size: 3rem;
+    margin: 0;
+    padding-right: 70px;
+
+}
+
+
+header nav {
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+header nav a {
+    color: black;
+    font-size: 0.9rem;
+
+    text-align: center;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: transparent;
+    white-space: nowrap;
+
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+header #boton {
+    background-color: #426B1F;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+}
+
+
+footer {
+    background-image: url('../../img/nodo.jpg');
+    background-size: cover;
+    background-position: center;
+    color: black;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    position: relative;
+    height: auto;
+    box-sizing: border-box;
+}
+
+footer #texto-izquierda,
+footer #texto-derecha {
+    width: 90%;
+    text-align: center;
+    margin: 5px 0;
+    word-wrap: break-word;
+}
+
+
+@media (min-width: 768px) {
+    footer {
+        flex-direction: row;
+        height: 150px;
+        padding: 10px 20px;
+    }
+
+    footer #texto-izquierda {
+        margin-right: auto;
+        text-align: left;
+    }
+
+    footer #texto-derecha {
+        margin-left: auto;
+        text-align: right;
+    }
+}
+
+
+@media (max-width: 430px) {
+    header h1 {
+        font-size: 2rem;
+
+        padding-right: 50px;
+
+    }
+
+    header nav a {
+        font-size: 0.8rem;
+
+        padding: 5px 10px;
+
+    }
+
+    header #boton {
+        padding: 8px 16px;
+
+        font-size: 0.9rem;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+}

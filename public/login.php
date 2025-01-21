@@ -18,9 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   // Consultar a la base de datos para verificar las credenciales
   $conn = conexionDB();
   $sql = "SELECT * FROM clientes WHERE nombre_usuario='$username'";
-  $result = mysqli_query($conn,$sql);
+  $result = mysqli_query($conn, $sql);
 
-  if (mysqli_num_rows($result)=== 1) {
+  if (mysqli_num_rows($result) === 1) {
     $row = mysqli_fetch_assoc($result);
     if (password_verify($password, $row['contrasena'])) {
       // Crear sesión
@@ -43,16 +43,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sevillatatis</title>
-  <link rel="stylesheet" href="styles/login.css">
+  <link rel="stylesheet" href="styles\general.css">
+  <link rel="stylesheet" href="styles\login.css">
+
+
 </head>
 
 <body>
-
+  <header>
+    <h1>Sevillatatis</h1>
+    <nav>
+      <ul>
+        <li><a href="profile.php">Profile</a></li>
+        <li><a href="search.php">Search experiences</a></li>
+        <li><a href="about.php">Who we are</a></li>
+        <li><a href="more.php">More about Sevilla</a></li>
+      </ul>
+      <a id="boton" href="login.php">Log in/Log out</a>
+    </nav>
+  </header>
 
   <main>
+    <img src="../img/icon.jpg" alt="icon">
+    <h2>Iniciar sesión</h2>
     <form action="login.php" method="POST">
       <input type="hidden" name="login" value="1">
-      <h2>Iniciar sesión</h2>
       <?php
       if (isset($error_username)) {
         echo "<p style='color: red;'>$error_username</p>";
@@ -67,9 +82,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <input type="password" id="password" name="password" required>
       <button type="submit">Iniciar sesión</button>
       <br>
-      <a href="new_account.php">Create new Account</a>
     </form>
+    <a href="new_account.php">Create new Account</a>
   </main>
 </body>
+<footer>
+  <p>Universidad Pablo de Olavide - Alma Mater Studiorum Universita di Bologna</p>
+  <p>By Pablo S&aacute;nchez G&oacute;mez</p>
+</footer>
 
 </html>

@@ -15,6 +15,11 @@ $error_username = $error_password = null;
 
 // Si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if ($_POST['opcion'] == 'cancel') {
+        header('location: login.php');
+        exit();
+    }
     // Validar que las claves existen en $_POST
     $username = isset($_POST['username']) ? trim($_POST['username']) : null;
     $password = isset($_POST['password']) ? trim($_POST['password']) : null;
@@ -28,16 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Insertar el usuario en la base de datos
 
-        $name=$_POST['name'];
-        $birthdate=$_POST['birthdate'];
-        $surname=$_POST['surname'];
+        $name = $_POST['name'];
+        $birthdate = $_POST['birthdate'];
+        $surname = $_POST['surname'];
         $conn = conexionDB();
         $sql = "INSERT INTO clientes (nombre, apellido, fecha_nacimiento, nombre_usuario, contrasena) 
                     VALUES ('$name', '$surname', '$birthdate', '$username', '$hashedPassword')";
         if ($conn->query($sql) === TRUE) {
             // Crear una sesión
             session_start();
-            $_SESSION['usuario'] = $username;
+            $sql="SELECT id FROM clientes where nombre_usuario = ('$username')";
+            $id_usuario=mysqli_fetch_assoc(mysqli_query($conn,$sql))['id'];
+            $_SESSION['usuario'] = $id_usuario;
 
             // Redirigir al perfil
             header("Location: profile.php");
@@ -48,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $conn->close();
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -57,13 +65,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sevillatatis</title>
-    <link rel="stylesheet" href="styles/new_account.css">
+
+    <link rel="stylesheet" href="styles\general.css">
+    <link rel="stylesheet" href="styles\new_account.css">
+
 </head>
 
 <body>
-<main>
+    <header>
+        <h1>Sevillatatis</h1>
+        <nav>
+            <ul>
+                <li><a href="profile.php">Profile</a></li>
+                <li><a href="search.php">Search experiences</a></li>
+                <li><a href="about.php">Who we are</a></li>
+                <li><a href="more.php">More about Sevilla</a></li>
+            </ul>
+            <a id="boton" href="login.php">Log in/Log out</a>
+        </nav>
+    </header>
+    <main>
+        <h2 class="section">Create New Account</h2>
         <form action="new_account.php" method="POST" enctype="multipart/form-data">
-            <h2 class="section">Create New Account</h2>
+
 
             <?php
             if ($error_username) {
@@ -74,30 +98,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             ?>
 
-            <p>Name:</p>
-            <input type="text" name="name" required>
-
-            <p>Surname:</p>
-            <input type="text" name="surname" required>
-
-            <p>Date of Birth:</p>
-            <input type="date" name="birthdate" required>
-
-            <p>Profile Picture:</p>
-            <input type="file" name="profile_picture" accept="image/*" required>
-
-            <p>Username:</p>
-            <input type="text" name="username" required>
-
-            <p>Password:</p>
-            <input type="password" name="password" required>
-
-            <p>Confirm Password:</p>
-            <input type="password" name="confirm_password" required>
-
-            <input type="submit" value="Create Account">
+            <section>
+                <p>Name:</p>
+                <input type="text" name="name">
+            </section>
+            <section>
+                <p>Surname:</p>
+                <input type="text" name="surname">
+            </section>
+            <section>
+                <p>Date of Birth:</p>
+                <input type="date" name="birthdate">
+            </section>
+            <section>
+                <p>Username:</p>
+                <input type="text" name="username">
+            </section>
+            <section>
+                <p>Password:</p>
+                <input type="password" name="password">
+            </section>
+            <section>
+                <p>Confirm Password:</p>
+                <input type="password" name="confirm_password">
+            </section>
+            <section id="boton">
+            <button type="submit" value="Create Account">Create Account</button>
+            <button type="submit" name="opcion" value="cancel">Cancel</button>
+        </section>
         </form>
     </main>
 </body>
+<footer>
+    <p>Universidad Pablo de Olavide - Alma Mater Studiorum Universita di Bologna</p>
+    <p>By Pablo S&aacute;nchez G&oacute;mez</p>
+</footer>
 
 </html>

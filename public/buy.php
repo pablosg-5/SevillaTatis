@@ -6,7 +6,7 @@ if (isset($_POST['opcion'])) {
   if ($_POST['opcion'] == 'buy') {
     $_SESSION['id_experience'] = $_POST['id'];
     $_SESSION['num_tickets'] = $_POST['num_tickets'];
-    $_SESSION['fecha']= $_POST['fecha'];
+    $_SESSION['fecha'] = $_POST['fecha'];
 
 
     header('Location: proceso_pago.php');
@@ -32,10 +32,13 @@ $row = mysqli_fetch_assoc($result);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sevillatatis</title>
   <link rel="stylesheet" href="styles\buy.css">
+  <link rel="stylesheet" href="styles\general.css">
+
 </head>
 
 <body>
   <header>
+    <h1>Sevillatatis</h1>
     <nav>
       <ul>
         <li><a href="profile.php">Profile</a></li>
@@ -43,9 +46,8 @@ $row = mysqli_fetch_assoc($result);
         <li><a href="about.php">Who we are</a></li>
         <li><a href="more.php">More about Sevilla</a></li>
       </ul>
-      <a href="login.php">Log in/Log out</a>
+      <a id="boton" href="login.php">Log in/Log out</a>
     </nav>
-
   </header>
   <main>
 
@@ -62,7 +64,7 @@ $row = mysqli_fetch_assoc($result);
       <select name="num_tickets" id="num_tickets">
         <?php
         for ($i = 1; $i <= 5; $i++) {
-          $selected = ($i == 1) ? 'selected' : ''; 
+          $selected = ($i == 1) ? 'selected' : '';
           echo "<option value='$i' $selected>$i ticket" . ($i > 1 ? 's' : '') . "</option>";
         }
         ?>
