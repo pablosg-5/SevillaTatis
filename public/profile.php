@@ -92,11 +92,10 @@ $resultR = mysqli_query($conn, $sql);
           </figure>
           <p>€<?= $precioExpe ?> por persona</p>
           <p><?= $cantidad ?> u</p>
-          <form action="cancelar_reserva.php" method="post">
+          <form action="cancelar_reserva.php" method="post" id="reservaForm">
             <input type="hidden" id="exp" name="exp" value="<?= $id ?>">
-            <input type="hidden" id="boton" name="boton" value="">
-            <input type="submit" value="Cancelar" onclick="document.getElementById('boton').value='cancelar'"></input>
-            <input type="submit" value="Modificar" onclick="document.getElementById('boton').value='modificar'"></input>
+            <button type="submit" name="accion" value="cancelar">Cancelar</button>
+            <button type="submit" name="accion" value="modificar">Modificar</button>
           </form>
         </article>
 
@@ -113,5 +112,4 @@ $resultR = mysqli_query($conn, $sql);
     <p>By Pablo S&aacute;nchez G&oacute;mez</p>
   </footer>
 </body>
-
 </html>
