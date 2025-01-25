@@ -1,6 +1,8 @@
-main{
-    margin-top: 20vh;;
+
+main {
+    margin-top: 80px; /* Ajusta este valor según la altura real del header */
 }
+
 
 main form {
     border-color: #7d7d7d;
@@ -34,14 +36,15 @@ main h2{
 }
 
 /* Contenedor de botones */
-main form #boton{
-    display: flex; /* Activa Flexbox */
-    justify-content: center; /* Centra los botones horizontalmente */
-    gap: 20px; /* Espaciado entre los botones */
-    margin-top: 20px; /* Margen superior para separar los botones del contenido */
+main form .boton-container {
+    display: flex; /* Activa el diseño flexbox */
+    justify-content: space-between; /* Distribuye los botones uniformemente */
+    gap: 10px; /* Espaciado entre los botones */
+    margin-top: 20px; /* Separación del contenido superior */
 }
 
-main button {
+main form button {
+    flex: 1; /* Los botones ocuparán el mismo espacio */
     padding: 10px 20px; /* Ajusta el tamaño interno del botón */
     background-color: #1F386B;
     color: white;

@@ -7,6 +7,7 @@ main img {
     max-width: 300px;
     height: auto;
     align-self:center;
+    margin-top: 20%;
 }
 
 button{
@@ -15,20 +16,33 @@ button{
     border-radius:10%;
     margin-top: 15%;
     cursor: pointer;
+    margin: 5% 30%;
+    text-align: center;
      
 }
-main form{
+main form {
     border-color: #7d7d7d;
     background-color: #dadada;
     text-align: left;
     padding: 1% 1%;
     margin: 0 20px;
     border: 2px solid #0000;
-    box-sizing: border-box; 
-    
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos estén en columnas */
+    gap: 10px; /* Espaciado entre filas */
 }
-input{
+input {
     border-radius: 10%;
-    max-width: 45%;
-    align-self: flex-end;
+    max-width: 100%; /* Asegura que no se pase del contenedor */
+    align-self: flex-start; /* Alinea al inicio si es necesario */
 }
+
+main form label,
+main form input {
+    display: block; /* Cada elemento ocupa toda la línea */
+    width: 50%; /* Asegura que el input ocupe el ancho disponible */
+    margin-bottom: 5px; /* Espacio entre etiqueta y campo */
+}
+
+

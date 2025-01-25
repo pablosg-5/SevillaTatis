@@ -1,0 +1,122 @@
+/* Estilo general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estructura del body y main */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Estilo del título principal */
+figure {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top:20vh;
+}
+
+figcaption {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Imagen */
+figure img {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Cuadro de detalles */
+.details-box {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+/* Primer 50% (Descripción) */
+.details-box .description {
+    width: 50%;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* Segundo 50% (Fecha, Precio y Tickets) */
+.details-box .info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Formulario */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* Fecha y Tickets */
+form input[type="date"],
+form select {
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/* Botones */
+form button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    margin: 0 10px;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+form button[type="submit"]:first-of-type {
+    background-color: #28a745;
+}
+
+form button[type="submit"]:first-of-type:hover {
+    background-color: #218838;
+}
+
+form button[type="submit"]:last-of-type {
+    background-color: #dc3545;
+}
+
+form button[type="submit"]:last-of-type:hover {
+    background-color: #c82333;
+}

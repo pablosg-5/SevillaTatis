@@ -19,7 +19,7 @@
         <li><a href="profile.php">Profile</a></li>
         <li><a href="search.php">Search experiences</a></li>
         <li><a href="about.php">Who we are</a></li>
-        <li><a href="more.php">More about Sevilla</a></li>
+        <li><a href="more.php">More</a></li>
       </ul>
       <a id="boton" href="login.php">Log in/Log out</a>
     </nav>

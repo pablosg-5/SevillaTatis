@@ -7,20 +7,15 @@ if (!isset($_SESSION['usuario'])) {
     exit();
 }
 
+$id_exp = ($_POST['exp']);
+$accion = ($_POST['accion']);
+
+
 $con = conexionDB();
 if (!$con) {
     die("Error de conexión: " . mysqli_connect_error());
 }
-
-$id_exp = isset($_POST['exp']) ? $_POST['exp'] : null;
-$accion = isset($_POST['boton']) ? $_POST['boton'] : null;
-
-$mensaje = '';
-
-// Depuración: Mostrar valores recibidos
-error_log("ID Exp: " . $id_exp);
-error_log("Accion: " . $accion);
-
+$mensaje = "";
 if ($accion === 'cancelar') {
     if ($id_exp) {
         $sql = "DELETE FROM `reservas` WHERE id_anuncio='$id_exp'";
@@ -61,10 +56,6 @@ if ($accion === 'cancelar') {
             $mensaje = "Error: ID de anuncio no proporcionado.";
         }
     }
-} else {
-    $mensaje = "Acción no válida.";
-    // Depuración: Mostrar mensaje de error
-    error_log("Mensaje: " . $mensaje);
 }
 
 mysqli_close($con);
@@ -72,48 +63,72 @@ mysqli_close($con);
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cancelar o Modificar Reserva</title>
+    <link rel="stylesheet" href="styles\general.css">
+    <link rel="stylesheet" href="styles\modify.css">
 </head>
+
 <body>
-    <p><?= $mensaje ?></p>
-    <script>
-        setTimeout(function() {
-            window.location.href = "profile.php";
-        }, 3000);
-    </script>
-    <?php if ($accion === 'modificar' && isset($reserva) && empty($mensaje)): ?>
-        <h1>Modificar Reserva</h1>
-        <form action="" method="POST">
-            <input type="hidden" name="exp" value="<?= $id_exp ?>">
-            <input type="hidden" name="id_reserva" value="<?= $reserva['id_anuncio'] ?>">
-            <input type="hidden" name="boton" value="modificar">
-            <input type="hidden" name="modificar_reserva" value="1">
-
-            <label for="fecha">Selecciona una nueva fecha:</label>
-            <input type="date" id="fecha" name="fecha" value="<?= $reserva['fecha'] ?>" required>
-            <br><br>
-
-            <label for="cantidad">Cantidad de tickets:</label>
-            <select name="cantidad" id="cantidad">
-                <?php
-                for ($i = 1; $i <= 5; $i++) {
-                    $selected = ($i == $reserva['cantidad']) ? 'selected' : ''; // Seleccionamos la opción actual por defecto
-                    echo "<option value='$i' $selected>$i ticket" . ($i > 1 ? 's' : '') . "</option>";
-                }
-                ?>
-            </select>
-            <br><br>
-
-            <button type="submit" name="boton" value="modificar">Guardar cambios</button>
-            <a href="profile.php"><button type="button">Cancelar</button></a>
-        </form>
-    <?php else: ?>
-        <h1><?= $mensaje ? 'Resultado' : 'Error' ?></h1>
+    <header>
+        <h1>Sevillatatis</h1>
+        <nav>
+            <ul>
+                <li><a href="profile.php">Profile</a></li>
+                <li><a href="search.php">Search experiences</a></li>
+                <li><a href="about.php">Who we are</a></li>
+                <li><a href="more.php">More about Sevilla</a></li>
+            </ul>
+            <a id="boton" href="login.php">Log in/Log out</a>
+        </nav>
+    </header>
+    <main>
         <p><?= $mensaje ?></p>
-        <a href="profile.php">Volver al perfil</a>
-    <?php endif; ?>
+        <?php if ($accion === 'modificar' && isset($reserva) && empty($mensaje)): ?>
+            <h2>Modificar Reserva</h2>
+            <form action="" method="POST">
+                <input type="hidden" name="exp" value="<?= $id_exp ?>">
+                <input type="hidden" name="id_reserva" value="<?= $reserva['id_anuncio'] ?>">
+                <input type="hidden" name="accion" value="modificar">
+                <input type="hidden" name="modificar_reserva" value="1">
+
+                <label for="fecha">Selecciona una nueva fecha:</label>
+                <input type="date" id="fecha" name="fecha" value="<?= $reserva['fecha'] ?>" required>
+                <br><br>
+
+                <label for="cantidad">Cantidad de tickets:</label>
+                <select name="cantidad" id="cantidad">
+                    <?php
+                    for ($i = 1; $i <= 5; $i++) {
+                        $selected = ($i == $reserva['cantidad']) ? 'selected' : ''; // Seleccionamos la opción actual por defecto
+                        echo "<option value='$i' $selected>$i ticket" . ($i > 1 ? 's' : '') . "</option>";
+                    }
+                    ?>
+                </select>
+                <br><br>
+                <section class="boton-container">
+                    <button type="submit" name="boton" value="modificar" id="boton">Guardar cambios</button>
+                    <a href="profile.php"><button type="button" id="boton">Cancelar</button></a>
+                </section>
+            </form>
+        <?php else: ?>
+            <script>
+                setTimeout(function() {
+                    window.location.href = "profile.php";
+                }, 3000);
+            </script>
+            <h1><?= $mensaje ? 'Resultado' : 'Error' ?></h1>
+            <a href="profile.php">Volver al perfil</a>
+        <?php endif; ?>
+    </main>
+
+    <footer>
+        <p>Universidad Pablo de Olavide - Alma Mater Studiorum Universita di Bologna</p>
+        <p>By Pablo S&aacute;nchez G&oacute;mez</p>
+    </footer>
 </body>
+
 </html>

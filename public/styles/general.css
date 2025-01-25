@@ -16,11 +16,12 @@ header {
     color: white;
     text-align: left;
     padding: 20px;
-    position: relative;
+    position: fixed;
     width: 100%;
     overflow: hidden;
     box-sizing: border-box;
-    min-height: 100px
+    min-height: 100px;
+    z-index: 10;
 }
 
 
@@ -35,7 +36,7 @@ header h1 {
 
 header nav {
     justify-content: space-between;
-    margin-top: 20px;
+    margin:10px;
 }
 
 

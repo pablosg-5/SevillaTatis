@@ -1,32 +1,74 @@
-main h2{
-    text-align: left;
-    margin: 5px;
-    padding: 5%;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-main article{
-    display:flex;
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px;
+    margin-top: 120px; /* Ajusta este margen según la altura del header */
+    overflow-y: auto; /* Activa el scroll si el contenido excede la altura disponible */
+}
+
+main h2 {
+    text-align: left;
+    margin-top: 10%;
+    font-size: 80px;
+    margin-bottom: 0;
+}
+
+main article {
+    display: flex; /* Mantiene el diseño en flexbox */
     background-color: #E6E6E6;
     border-radius: 40px;
-    margin:5% 0;
-
+    margin: 5% 0;
+    padding: 20px; /* Aumenta el padding para dar más espacio interno */
+    overflow: hidden; /* Previene que el contenido se salga */
+    align-items: flex-start; /* Alinea elementos al inicio verticalmente */
+    width: 100%; /* Asegura que el artículo ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Incluye el padding y el borde en el tamaño total */
 }
 
-main figure{
-    overflow: hidden;
-    align-self:flex-start;
+main article p {
+    font-size: 30px;
+}
 
+
+main article h2 {
+    font-size: 3rem; /* Haz el texto del figcaption más grande */
+    margin-left: 20px; /* Añade separación respecto a la imagen */
+    font-weight: bold; /* Da más peso al texto */
+    max-width: 20%;
+    margin-top: 0;
+}
+
+main article .info-container {
+    display: flex;
+    flex-direction: column; /* Asegura que los párrafos estén en columna */
+    gap: 10px; /* Añade un espacio entre los párrafos */
+    margin-top: 10px; /* Añade separación respecto al figcaption */
+    font-size: 30px; /* Aumenta el tamaño del texto */
 }
 
 main form {
-    display: flex; /* Activa Flexbox */
-    justify-content:center; /* Centra los botones horizontalmente */
-    gap: 20px; /* Espaciado entre los botones */
-    margin-top: 20px; /* Margen superior para separar los botones del contenido */
-    font-size: 50px;
+    display: flex;
+    justify-content: flex-end; /* Alínea los botones a la derecha */
+    gap: 10px; /* Espaciado entre botones */
+    margin-top: auto; /* Envía el formulario al final del contenedor */
+    align-self: flex-end; /* Asegura la alineación a la derecha */
 }
 
-main input {
+main button {
     padding: 10px 20px; /* Ajusta el tamaño interno del botón */
     background-color: #426B1F;
     color: white;
@@ -34,14 +76,21 @@ main input {
     border-radius: 5px;
     cursor: pointer;
     max-height: 30%;
-    
+    font-size: 30px;
 }
 
-main figure img{
-    width: 60%;
-    max-width: 300px;
-    height: auto;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+footer{
+    font-size: 3vw;
+}
+
+header h1{
+    font-size: 10vw;
+}
+
+header nav a{
+    font-size: 3vw;
+}
+
+header #boton{
+    font-size: 3vw;
 }

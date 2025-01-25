@@ -2,15 +2,21 @@
 include 'functions.php';
 session_start();
 
+$error_message = ''; // Variable para almacenar mensajes de error
+
 if (isset($_POST['opcion'])) {
   if ($_POST['opcion'] == 'buy') {
-    $_SESSION['id_experience'] = $_POST['id'];
-    $_SESSION['num_tickets'] = $_POST['num_tickets'];
-    $_SESSION['fecha'] = $_POST['fecha'];
-
-
-    header('Location: proceso_pago.php');
-    exit();
+    // Validar si la fecha está vacía
+    if (empty($_POST['fecha'])) {
+      $error_message = 'Por favor, selecciona una fecha antes de continuar.';
+    } else {
+      // Guardar datos en la sesión y redirigir al proceso de pago
+      $_SESSION['id_experience'] = $_POST['id'];
+      $_SESSION['num_tickets'] = $_POST['num_tickets'];
+      $_SESSION['fecha'] = $_POST['fecha'];
+      header('Location: proceso_pago.php');
+      exit();
+    }
   } else if ($_POST['opcion'] == 'cancel') {
     header('location: search.php');
     exit();
@@ -18,7 +24,7 @@ if (isset($_POST['opcion'])) {
 }
 
 $con = conexionDB();
-$sql = 'SELECT * FROM experiencias WHERE `id`=' . $_POST['id_experience'] . ';';
+$sql = 'SELECT * FROM experiencias WHERE `id`=' . $_POST['id'] . ';';
 $result = mysqli_query($con, $sql);
 $row = mysqli_fetch_assoc($result);
 
@@ -33,7 +39,6 @@ $row = mysqli_fetch_assoc($result);
   <title>Sevillatatis</title>
   <link rel="stylesheet" href="styles\buy.css">
   <link rel="stylesheet" href="styles\general.css">
-
 </head>
 
 <body>
@@ -44,24 +49,30 @@ $row = mysqli_fetch_assoc($result);
         <li><a href="profile.php">Profile</a></li>
         <li><a href="search.php">Search experiences</a></li>
         <li><a href="about.php">Who we are</a></li>
-        <li><a href="more.php">More about Sevilla</a></li>
+        <li><a href="more.php">More</a></li>
       </ul>
       <a id="boton" href="login.php">Log in/Log out</a>
     </nav>
   </header>
   <main>
-
     <figure>
       <img src="<?= $row['imagen'] ?>" alt="<?= $row['nombre'] ?>">
       <figcaption><?= $row['nombre'] ?></figcaption>
     </figure>
+
     <form action="buy.php" method="post">
       <p><?= $row['descripcion'] ?></p>
-      <p><?= $row['precio'] ?>€</p>
+      <p><?= $row['precio'] ?>€ per person</p>
+      <p>Total: <span id="total"><?= $row['precio'] ?></span>€</p>
+
+      <!-- Mensaje de error -->
+      <?php if (!empty($error_message)) : ?>
+        <p style="color: red; font-weight: bold;"><?= $error_message ?></p>
+      <?php endif; ?>
 
       <label for="fecha">Selecciona una fecha:</label>
-      <input type="date" id="fecha" name="fecha" required>
-      <select name="num_tickets" id="num_tickets">
+      <input type="date" id="fecha" name="fecha">
+      <select name="num_tickets" id="num_tickets" onchange="updateTotal()">
         <?php
         for ($i = 1; $i <= 5; $i++) {
           $selected = ($i == 1) ? 'selected' : '';
@@ -74,7 +85,6 @@ $row = mysqli_fetch_assoc($result);
       <button type="submit" onclick="document.getElementById('opcion').value='buy';">BUY</button>
       <button type="submit" onclick="document.getElementById('opcion').value='cancel';">CANCEL</button>
     </form>
-
   </main>
 
   <footer>
@@ -82,5 +92,14 @@ $row = mysqli_fetch_assoc($result);
     <p>By Pablo S&aacute;nchez G&oacute;mez</p>
   </footer>
 </body>
-
 </html>
+
+
+<script>
+  function updateTotal() {
+    var precio = <?= $row['precio'] ?>;
+    var numTickets = document.getElementById('num_tickets').value;
+    var total = (precio * numTickets).toFixed(2);
+    document.getElementById('total').innerText = total;
+  }
+</script>

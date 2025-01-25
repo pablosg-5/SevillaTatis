@@ -35,7 +35,7 @@ $resultR = mysqli_query($conn, $sql);
         <li><a href="profile.php">Profile</a></li>
         <li><a href="search.php">Search experiences</a></li>
         <li><a href="about.php">Who we are</a></li>
-        <li><a href="more.php">More about Sevilla</a></li>
+        <li><a href="more.php">More</a></li>
       </ul>
       <a id="boton" href="login.php">Log in/Log out</a>
     </nav>
@@ -57,17 +57,16 @@ $resultR = mysqli_query($conn, $sql);
 
       ?>
           <article>
-            <figure>
-              <img src="<?= $experiencia['imagen'] ?>" alt="<?= $nombreExpe ?>">
-              <figcaption><?= $nombreExpe ?></figcaption>
-            </figure>
-            <p>€<?= $precioExpe ?> per person</p>
-            <p><?= $cantidad ?> u</p>
-            <form action="cancelar_reserva.php" method="post">
+            <h2><?= $nombreExpe ?></h2>
+            <section class=".info-container">
+              <p><?= $precioExpe ?>€ por persona</p>
+              <p><?= $cantidad ?> tickets</p>
+              <p>Total: <?= $precioExpe * $cantidad ?>€</p>
+            </section>
+            <form action="cancelar_reserva.php" method="post" id="reservaForm">
               <input type="hidden" id="exp" name="exp" value="<?= $id ?>">
-              <input type="hidden" id="boton" name="boton" value="">
-              <input type="submit" value="Cancelar" onclick="document.getElementById('boton').value='cancelar'"></input>
-              <input type="submit" value="Modificar" onclick="document.getElementById('boton').value='modificar'"></input>
+              <button type="submit" name="accion" value="cancelar">Cancelar</button>
+              <button type="submit" name="accion" value="modificar">Modificar</button>
             </form>
           </article>
 
@@ -86,12 +85,12 @@ $resultR = mysqli_query($conn, $sql);
       ?>
 
         <article>
-          <figure>
-            <img src="<?= $experiencia['imagen'] ?>" alt="<?= $nombreExpe ?>">
-            <figcaption><?= $nombreExpe ?></figcaption>
-          </figure>
-          <p>€<?= $precioExpe ?> por persona</p>
-          <p><?= $cantidad ?> u</p>
+          <h2><?= $nombreExpe ?></h2>
+          <section class="info-container">
+            <p><?= $precioExpe ?>€ por persona</p>
+            <p><?= $cantidad ?> tickets</p>
+            <p>Total: <?= $precioExpe * $cantidad ?>€</p>
+          </section>
           <form action="cancelar_reserva.php" method="post" id="reservaForm">
             <input type="hidden" id="exp" name="exp" value="<?= $id ?>">
             <button type="submit" name="accion" value="cancelar">Cancelar</button>
@@ -112,4 +111,5 @@ $resultR = mysqli_query($conn, $sql);
     <p>By Pablo S&aacute;nchez G&oacute;mez</p>
   </footer>
 </body>
+
 </html>

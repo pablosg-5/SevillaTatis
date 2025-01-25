@@ -30,37 +30,39 @@ $result = mysqli_query($con, $sql);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sevillatatis</title>
-  <link rel="stylesheet" href="styles\search.css">
   <link rel="stylesheet" href="styles\general.css">
+  <link rel="stylesheet" href="styles\search.css">
 
 </head>
 
 <body>
-<header>
+  <header>
     <h1>Sevillatatis</h1>
     <nav>
       <ul>
         <li><a href="profile.php">Profile</a></li>
         <li><a href="search.php">Search experiences</a></li>
         <li><a href="about.php">Who we are</a></li>
-        <li><a href="more.php">More about Sevilla</a></li>
+        <li><a href="more.php">More</a></li>
       </ul>
       <a id="boton" href="login.php">Log in/Log out</a>
     </nav>
   </header>
   <main>
     <section>
-      <header>
-        <h2>Experiences</h2>
-      </header>
 
-      <!-- Formulario para búsqueda y filtros -->
-      <form method="post" action="search.php">
-        <input id="search" name="search" type="text" placeholder="Buscar..." value="<?= htmlspecialchars($searchTerm) ?>">
-        <input type="hidden" id="filtro" name="filtro" value="">
-        <input type="image" src="../img/lupa.jpg" alt="Buscar">
-        <input type="submit" value="Precio" onclick="document.getElementById('filtro').value='precio';">
-        <input type="submit" value="A-Z" onclick="document.getElementById('filtro').value='az';">
+
+      <form method="post" action="search.php" class="barra">
+        <h2>Experiences</h2>
+        <section class="top-row">
+          <input id="search" name="search" type="text" placeholder="Buscar..." value="<?= htmlspecialchars($searchTerm) ?>">
+          <input type="hidden" id="filtro" name="filtro" value="">
+          <input type="image" src="../img/lupa.jpg" class="lupa" alt="Buscar">
+        </section>
+        <section class="buttons-row">
+          <input type="submit" value="Precio" onclick="document.getElementById('filtro').value='precio';">
+          <input type="submit" value="A-Z" onclick="document.getElementById('filtro').value='az';">
+        </section>
       </form>
 
       <?php
@@ -71,7 +73,7 @@ $result = mysqli_query($con, $sql);
           <article>
             <form action="buy.php" method="post">
               <figure>
-                <input type="hidden" name="id_experience" value="<?= $row['id'] ?>">
+                <input type="hidden" name="id" value="<?= $row['id'] ?>">
                 <input type="image" src="<?= $row['imagen'] ?>" alt="<?= htmlspecialchars($row['nombre']) ?>" name="<?= htmlspecialchars($row['nombre']) ?>">
                 <figcaption><?= htmlspecialchars($row['nombre']) ?></figcaption>
                 <p>€<?= htmlspecialchars($row['precio']) ?> per person</p>
