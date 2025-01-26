@@ -1,6 +1,6 @@
 main {
     text-align: center;
-    margin-top: 20%;;
+    margin-top: 20%;
 }
 
 main h1 {
@@ -8,8 +8,8 @@ main h1 {
     background-color: red;
     color: white;
     padding: 20px;
-    margin: 0;
 }
+
 
 main article {
     margin: 20px 0;

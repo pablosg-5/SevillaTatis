@@ -1,0 +1,85 @@
+main form {
+    margin: 20% 20px;
+}
+
+main h2 {
+    text-align: center;
+    margin: 20vh 20vw 0 20vw;
+}
+
+main button {
+    background-color: #1F386B;
+    color: white;
+}
+
+form {
+    margin: 3rem auto;
+    padding: 2rem;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+form label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+form input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+form button:first-of-type {
+    margin-right: 1rem;
+}
+
+main form .buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+main form button {
+    flex: 1;
+    padding: 10px 20px;
+    background-color: #1F386B;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form textarea.texto {
+    width: 100%;
+    min-height: 100px;
+    max-height: 300px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+    overflow-y: auto;
+}

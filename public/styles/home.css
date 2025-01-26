@@ -7,6 +7,10 @@ article {
     padding: 1%;
 }
 
+main {
+    margin-top: 15vh;
+}
+
 main img {
     width: 80%;
     max-width: 300px;
@@ -15,7 +19,7 @@ main img {
 }
 
 main p {
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     text-align: center;
     margin: 10px 15px;
     max-width: 90%;
@@ -25,14 +29,13 @@ main p {
     display: block;
     margin: 20px auto;
     padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #B93939;
-    color: #DEBB09;
+    font-size: var(--font-size-base);
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
     border: none;
     border-radius: 20px;
     cursor: pointer;
 }
-
 
 @media (min-width: 768px) {
     article {

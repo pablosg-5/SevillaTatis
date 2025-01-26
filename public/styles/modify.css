@@ -1,51 +1,48 @@
-
 main {
-    margin-top: 80px; /* Ajusta este valor según la altura real del header */
+    margin-top: 80px;
 }
-
 
 main form {
     border-color: #7d7d7d;
     background-color: #dadada;
     text-align: left;
-    padding: 1% 1%;
+    padding: 1%;
     margin: 10px;
-    border: 2px solid #0000;
+    border: 2px solid transparent;
     box-sizing: border-box;
     border-radius: 5%;
 }
 
 main form p {
     display: inline-block;
-    margin-right: 10px; 
+    margin-right: 10px;
 }
 
 main form section {
     display: flex;
-    align-items: center; 
-    margin-bottom: 10px; 
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 main input {
     max-width: 45%;
-    flex: 1; 
+    flex: 1;
 }
 
-main h2{
+main h2 {
     text-align: center;
 }
 
-/* Contenedor de botones */
 main form .boton-container {
-    display: flex; /* Activa el diseño flexbox */
-    justify-content: space-between; /* Distribuye los botones uniformemente */
-    gap: 10px; /* Espaciado entre los botones */
-    margin-top: 20px; /* Separación del contenido superior */
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
 }
 
 main form button {
-    flex: 1; /* Los botones ocuparán el mismo espacio */
-    padding: 10px 20px; /* Ajusta el tamaño interno del botón */
+    flex: 1;
+    padding: 10px 20px;
     background-color: #1F386B;
     color: white;
     border: none;

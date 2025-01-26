@@ -1,0 +1,10 @@
+main a {
+    margin: 50px;
+    padding: 10px; 
+    background-color: #1F386B; 
+    color: white;
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer; 
+    text-align: center; 
+    text-decoration: none; }

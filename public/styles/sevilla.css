@@ -1,26 +1,20 @@
-main section{
+main section {
     margin-top: 35%;
-    background-color:#E6E6E6;
+    background-color: #E6E6E6;
     color: #426B1F;
-    border-radius: 10%;
+    border-radius: 10px; 
     padding: 20px;
 }
 
-main figure img{
-    border-radius: 10%;
+main figure img {
+    border-radius: 10px;
     width: 100%;
-    max-width: 300px; /* Ajusta el tamaño máximo de la imagen */
-    height: auto;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    justify-content: center;
-    
+    max-width: 300px; 
+    height: auto; 
+    box-sizing: border-box; 
 }
 
-
-
-main figure{
+main figure {
     text-align: center;
     color: black;
     font-size: 30px;
