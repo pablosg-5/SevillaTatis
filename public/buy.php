@@ -15,6 +15,13 @@ if (isset($_POST['opcion'])) {
       $_SESSION['num_tickets'] = $_POST['num_tickets'];
       $_SESSION['fecha'] = $_POST['fecha'];
       header('Location: proceso_pago.php');
+          $stmt = $con->prepare('INSERT INTO notifications (user_id, message, created_at) VALUES (?, ?, ?)');
+          $stmt->bind_param('iss', $usuario_id, $mensaje, $fecha_notificacion);
+          $stmt->execute();
+
+          $success_message = "Reservation successful! Check your notifications.";
+          echo "<script>
+                  alert('Reservation successful! Check your notifications.');
       exit();
     }
   } else if ($_POST['opcion'] == 'cancel') {

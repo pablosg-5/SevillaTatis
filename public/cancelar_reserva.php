@@ -21,6 +21,13 @@ if ($accion === 'cancelar') {
         $sql = "DELETE FROM `reservas` WHERE id_anuncio='$id_exp'";
         if (mysqli_query($con, $sql)) {
             $mensaje = "Reserva cancelada con éxito. Redirigiendo...";
+        if ($stmt->execute()) {
+            $mensaje = "Reservation successfully canceled.";
+            // Insert the notification into the database
+            $stmt2 = $con->prepare("INSERT INTO `notifications` (user_id, message) VALUES (?, ?)");
+            $stmt2->bind_param("is", $_SESSION['usuario'], $mensaje);
+            $stmt2->execute();
+            $stmt2->close();
         } else {
             $mensaje = "Error al cancelar la reserva: " . mysqli_error($con);
         }
@@ -37,6 +44,13 @@ if ($accion === 'cancelar') {
             $sql = "UPDATE `reservas` SET fecha='$nueva_fecha', cantidad='$nueva_cantidad' WHERE id_anuncio='$id_reserva'";
             if (mysqli_query($con, $sql)) {
                 $mensaje = "Reserva modificada con éxito. Redirigiendo...";
+            if ($stmt->execute()) {
+                $mensaje = "Reservation successfully modified.";
+                // Insert the notification into the database
+                $stmt2 = $con->prepare("INSERT INTO `notifications` (user_id, message) VALUES (?, ?)");
+                $stmt2->bind_param("is", $_SESSION['usuario'], $mensaje);
+                $stmt2->execute();
+                $stmt2->close();
             } else {
                 $mensaje = "Error al modificar la reserva: " . mysqli_error($con);
             }
@@ -119,6 +133,12 @@ mysqli_close($con);
                 setTimeout(function() {
                     window.location.href = "profile.php";
                 }, 3000);
+                // Show alert with the notification message
+                document.addEventListener('DOMContentLoaded', function() {
+                    const mensaje = "<?= htmlspecialchars($mensaje) ?>";
+                    if (mensaje !== "") {
+                        alert(mensaje); // Show alert
+                    }
             </script>
             <h1><?= $mensaje ? 'Resultado' : 'Error' ?></h1>
             <a href="profile.php">Volver al perfil</a>
