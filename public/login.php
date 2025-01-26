@@ -1,26 +1,23 @@
 <?php
-// Incluir el archivo de funciones
 include 'functions.php';
 
 session_start();
+$login_text = isset($_SESSION['usuario']) ? 'Log out' : 'Log in';
 
-// Si existe una sesión activa, redirigir a log_out.php
 if (isset($_SESSION['usuario'])) {
   header("Location: log_out.php");
   exit();
 }
 
-// Si se ha enviado el formulario
+// If the form is submitted using POST method
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $username = $_POST['username'];
+  // Get and sanitize the username and password from the form
+  $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
   $password = $_POST['password'];
 
-  // Consultar a la base de datos para verificar las credenciales
   $conn = conexionDB();
-  $sql = "SELECT * FROM clientes WHERE nombre_usuario='$username'";
-  $result = mysqli_query($conn, $sql);
 
-  if (mysqli_num_rows($result) === 1) {
+  // Check if the user is admin
   if ($username === 'admin') {
     $sql = "SELECT * FROM administradores WHERE nombre_usuario = ?";
     $stmt = mysqli_prepare($conn, $sql);
@@ -28,11 +25,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_assoc($result);
-    if (password_verify($password, $row['contrasena'])) {
-      // Crear sesión
-      $_SESSION['usuario'] = $row['id'];
-      header("Location: profile.php");
-      exit();
     if (mysqli_num_rows($result) === 1) {
       // Compare the entered password with the hashed password in the database
       if (password_verify($password, $row['contrasena'])) {
@@ -43,25 +35,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error_password = "Incorrect password.";
       }
     } else {
-      $error_password = "Contraseña incorrecta.";
+      $error_username = "Username not found.";
     }
   } else {
-    $error_username = "Usuario no encontrado.";
+    // Search for the user in the clients table
+    $sql = "SELECT * FROM clientes WHERE nombre_usuario = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $row = mysqli_fetch_assoc($result);
+    if (mysqli_num_rows($result) === 1) {
+      // Compare the entered password with the hashed password in the database
+      if (password_verify($password, $row['contrasena'])) {
+        // Create session for the user
+        $_SESSION['usuario'] = $row['id'];
+        header("Location: profile.php");
+        exit();
+      } else {
+        $error_password = "Incorrect password.";
+      }
+    } else {
+      $error_username = "Username not found.";
+    }
   }
+
+  mysqli_stmt_close($stmt);
+  mysqli_close($conn);
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Sevillatatis</title>
-  <link rel="stylesheet" href="styles\general.css">
-  <link rel="stylesheet" href="styles\login.css">
-
-
+  <link rel="stylesheet" href="styles/general.css">
+  <link rel="stylesheet" href="styles/login.css">
 </head>
 
 <body>
@@ -69,41 +82,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <h1>Sevillatatis</h1>
     <nav>
       <ul>
-        <li><a href="profile.php">Profile</a></li>
-        <li><a href="search.php">Search experiences</a></li>
-        <li><a href="about.php">Who we are</a></li>
-        <li><a href="more.php">More</a></li>
+        <li><a href="profile.php" aria-label="Go to profile page">Profile</a></li>
+        <li><a href="search.php" aria-label="Search for experiences">Search experiences</a></li>
+        <li><a href="about.php" aria-label="Learn about who we are">Who we are</a></li>
+        <li><a href="more.php" aria-label="Learn more">More</a></li>
       </ul>
-      <a id="boton" href="login.php">Log in/Log out</a>
+      <a class="boton" href="login.php" aria-label="<?= htmlspecialchars($login_text) ?>"><?= $login_text ?></a>
     </nav>
   </header>
 
   <main>
-    <img src="../img/icon.jpg" alt="icon">
-    <h2>Iniciar sesión</h2>
+    <img src="../img/icon.jpg" alt="Login icon" class="wow-effect">
+    <h2>Log In</h2>
     <form action="login.php" method="POST">
       <input type="hidden" name="login" value="1">
-      <?php
-      if (isset($error_username)) {
-        echo "<p style='color: red;'>$error_username</p>";
-      } ?>
-      <?php
-      if (isset($error_password)) {
-        echo "<p style='color: red;'>$error_password</p>";
-      } ?>
-      <label for="username">Nombre de usuario:</label>
+
+      <!-- Display error messages if username or password is incorrect -->
+      <?php if (isset($error_username)): ?>
+        <p style="color: red;" aria-live="assertive"><?= htmlspecialchars($error_username) ?></p>
+      <?php endif; ?>
+
+      <?php if (isset($error_password)): ?>
+        <p style="color: red;" aria-live="assertive"><?= htmlspecialchars($error_password) ?></p>
+      <?php endif; ?>
+
+      <label for="username" aria-label="Username">Username:</label>
       <input type="text" id="username" name="username" required>
-      <label for="password">Contraseña:</label>
+
+      <label for="password" aria-label="Password">Password:</label>
       <input type="password" id="password" name="password" required>
-      <button type="submit">Iniciar sesión</button>
+
+      <button type="submit" aria-label="Submit login form">Log In</button>
       <br>
     </form>
-    <a href="new_account.php">Create new Account</a>
+    <a href="new_account.php" aria-label="Create a new account">Create new Account</a>
   </main>
 </body>
+
 <footer>
   <p>Universidad Pablo de Olavide - Alma Mater Studiorum Universita di Bologna</p>
-  <p>By Pablo S&aacute;nchez G&oacute;mez</p>
+  <p>By Pablo Sánchez Gómez</p>
 </footer>
 
 </html>
