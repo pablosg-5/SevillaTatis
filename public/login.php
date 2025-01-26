@@ -21,12 +21,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $result = mysqli_query($conn, $sql);
 
   if (mysqli_num_rows($result) === 1) {
+  if ($username === 'admin') {
+    $sql = "SELECT * FROM administradores WHERE nombre_usuario = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
     $row = mysqli_fetch_assoc($result);
     if (password_verify($password, $row['contrasena'])) {
       // Crear sesión
       $_SESSION['usuario'] = $row['id'];
       header("Location: profile.php");
       exit();
+    if (mysqli_num_rows($result) === 1) {
+      // Compare the entered password with the hashed password in the database
+      if (password_verify($password, $row['contrasena'])) {
+        $_SESSION['admin'] = 'admin';
+        header("Location: admin_page.php");
+        exit();
+      } else {
+        $error_password = "Incorrect password.";
+      }
     } else {
       $error_password = "Contraseña incorrecta.";
     }
